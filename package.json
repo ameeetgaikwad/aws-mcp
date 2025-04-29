@@ -1,0 +1,40 @@
+{
+  "name": "aws-mcp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write .",
+    "dev": "nodemon src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.7.0",
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.15.3",
+    "globals": "^16.0.0",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.5.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-winston": "^4.2.0",
+    "helmet": "^8.1.0",
+    "winston": "^3.17.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": "please use pnpm",
+    "bun": "please use pnpm",
+    "pnpm": ">=9.1.0",
+    "yarn": "please use pnpm"
+  }
+}
