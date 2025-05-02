@@ -1,6 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { InstallNode } from "../tools/initialize";
+import { InstallNode } from "./tools/initialize";
 
 // Create an MCP server
 const server = new McpServer({
@@ -55,3 +55,11 @@ async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
 }
+
+// async function main2() {
+//   console.log("Installing Node.js");
+//   await InstallNode();
+//   console.log("Node.js installed");
+// }
+
+// main2();
