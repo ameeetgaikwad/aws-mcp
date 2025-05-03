@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write .",
-    "dev": "nodemon src/server.ts",
+    "dev": "nodemon src/index.ts",
     "build": "tsc",
-    "start": "tsc && node dist/server.js",
+    "start": "tsc && node dist/index.js",
     "start:prod": "pm2 start 'pnpm start'"
   },
   "keywords": [],
