@@ -1,6 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { z } from "zod";
+import { InstallNode } from "./tools/initialize";
 
 // Create an MCP server
 const server = new McpServer({
@@ -18,6 +18,13 @@ server.tool(
     };
   },
 );
+
+server.tool("install-node", "Installs Node.js on the server.", {}, async () => {
+  await InstallNode();
+  return {
+    content: [{ type: "text", text: `Node.js installed` }],
+  };
+});
 
 server.tool(
   "create-ec2-instance",
@@ -48,3 +55,11 @@ async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
 }
+
+// async function main2() {
+//   console.log("Installing Node.js");
+//   await InstallNode();
+//   console.log("Node.js installed");
+// }
+
+// main2();
