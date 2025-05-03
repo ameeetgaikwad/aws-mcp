@@ -1,6 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { InstallNode } from "./tools/initialize";
+import { installNginx, installNode, installPm2 } from "./tools/initialize";
 
 // Create an MCP server
 const server = new McpServer({
@@ -20,9 +20,23 @@ server.tool(
 );
 
 server.tool("install-node", "Installs Node.js on the server.", {}, async () => {
-  await InstallNode();
+  await installNode();
   return {
     content: [{ type: "text", text: `Node.js installed` }],
+  };
+});
+
+server.tool("install-pm2", "Installs PM2 on the server.", {}, async () => {
+  await installPm2();
+  return {
+    content: [{ type: "text", text: `PM2 installed` }],
+  };
+});
+
+server.tool("install-nginx", "Installs Nginx on the server.", {}, async () => {
+  await installNginx();
+  return {
+    content: [{ type: "text", text: `Nginx installed` }],
   };
 });
 
@@ -63,3 +77,4 @@ async function main() {
 // }
 
 // main2();
+
