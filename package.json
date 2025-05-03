@@ -6,11 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write .",
-    "dev": "nodemon src/server.ts",
-    "build": "tsc && tsc-alias",
-    "start": "tsc && node dist/server.js",
-    "start:prod": "pm2 start 'pnpm start'",
-    "ts-node": "ts-node -r tsconfig-paths/register"
+    "dev": "nodemon src/index.ts",
+    "build": "tsc",
+    "start": "tsc && node dist/index.js",
+    "start:prod": "pm2 start 'pnpm start'"
   },
   "keywords": [],
   "author": "",
@@ -27,7 +26,9 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@aws-sdk/client-ec2": "^3.800.0",
     "@modelcontextprotocol/sdk": "^1.10.2",
+    "@types/inquirer": "^9.0.7",
     "@types/morgan": "^1.9.9",
     "@types/ssh2": "^1.15.5",
     "cors": "^2.8.5",
@@ -35,6 +36,7 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
+    "inquirer": "^12.6.0",
     "morgan": "^1.10.0",
     "ssh2": "^1.15.0",
     "winston": "^3.17.0",
