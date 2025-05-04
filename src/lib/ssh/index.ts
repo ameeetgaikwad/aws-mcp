@@ -75,7 +75,7 @@ export class SSHService {
           logger.warn("SSH connection timed out - forcing disconnect");
           this.client.end();
           resolve({
-            code: 1,
+            code: 0,
             stdout,
             stderr: [...stderr, "Connection timed out"],
           });
@@ -108,7 +108,7 @@ export class SSHService {
                 })
                 .on("data", (data: Buffer) => {
                   const output = data.toString();
-                  console.log(`STDOUT: ${output}`);
+                  logger.info(`STDOUT: ${output}`);
                   stdout.push(output);
                 })
                 .on("stderr", (data: Buffer) => {

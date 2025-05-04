@@ -37,12 +37,23 @@ export const installNginx: ToolHandler = async (args, extra) => {
     ]);
 
     if (result.code !== 0) {
-      throw new Error(
-        `nginx installation failed with exit code ${result.code}`,
-      );
+      return {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify(
+              {
+                status: "error",
+                error: `nginx installation failed with exit code ${result.code}`,
+              },
+              null,
+              2,
+            ),
+          },
+        ],
+      };
     }
 
-    // console.log("pm2 successfully installed");
     return {
       content: [
         { type: "text", text: "nginx successfully installed on ec2 instance" },
@@ -51,7 +62,19 @@ export const installNginx: ToolHandler = async (args, extra) => {
   } catch (error) {
     logger.error("Failed to install nginx:", error);
     return {
-      content: [{ type: "text", text: "nginx installation failed" + error }],
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(
+            {
+              status: "error",
+              error: "nginx installation failed" + error,
+            },
+            null,
+            2,
+          ),
+        },
+      ],
     };
   }
 };
@@ -73,7 +96,15 @@ export const setupNginx: SetupNginxToolHandler = async (args, extra) => {
         content: [
           {
             type: "text",
-            text: "nginx installation failed with exit code " + result.code,
+            text: JSON.stringify(
+              {
+                status: "error",
+                error:
+                  "nginx installation failed with exit code " + result.code,
+              },
+              null,
+              2,
+            ),
           },
         ],
       };
@@ -87,7 +118,19 @@ export const setupNginx: SetupNginxToolHandler = async (args, extra) => {
   } catch (error) {
     logger.error("Failed to install nginx:", error);
     return {
-      content: [{ type: "text", text: "nginx installation failed" + error }],
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(
+            {
+              status: "error",
+              error: "nginx installation failed" + error,
+            },
+            null,
+            2,
+          ),
+        },
+      ],
     };
   }
 };

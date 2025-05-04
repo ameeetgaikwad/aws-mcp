@@ -16,6 +16,8 @@ import {
   installPm2,
   installNginx,
   setupNginx,
+  setupGithubSSHKeys,
+  installGithub,
 } from "./tools/ec2Setup";
 import { logger } from "./services/logger";
 
@@ -37,6 +39,9 @@ const server = new McpServer({
   },
 });
 
+/**
+ * Install Node.js on ec2 instance.
+ */
 server.tool(
   "install-node",
   "Installs Node.js on ec2 instance.",
@@ -44,8 +49,14 @@ server.tool(
   installNode,
 );
 
+/**
+ * Install pm2 on ec2 instance.
+ */
 server.tool("install-pm2", "Installs pm2 on ec2 instance.", {}, installPm2);
 
+/**
+ * Install nginx on ec2 instance.
+ */
 server.tool(
   "install-nginx",
   "Installs nginx on ec2 instance.",
@@ -53,6 +64,9 @@ server.tool(
   installNginx,
 );
 
+/**
+ * Setup nginx on ec2 instance.
+ */
 server.tool(
   "setup-nginx",
   "Setup nginx on ec2 instance.",
@@ -63,11 +77,47 @@ server.tool(
       .describe(
         "Domain name for HTTPS and SSL certificate configuration. Optional - leave empty if HTTPS is not needed.",
       ),
-    port: z.string().describe("The port which your service is running on"),
+    port: z
+      .string()
+      .describe(
+        "The port which your server is running on. Always ask the user for the port number.",
+      ),
   },
   setupNginx,
 );
 
+/**
+ * Setup github ssh keys on ec2 instance for setting up github.
+ */
+server.tool(
+  "setup-github-ssh-keys",
+  "Setup github ssh keys on ec2 instance. This will generate a new ssh key pair and add it to the ec2 instance. The public key will also be returned to the user for adding to github.",
+  {
+    email: z
+      .string()
+      .optional()
+      .describe("The email address to use for the github ssh keys."),
+  },
+  setupGithubSSHKeys,
+);
+
+/**
+ * Clone a github repository on ec2 instance.
+ */
+server.tool(
+  "clone-github-repository",
+  "Clone a github repository on ec2 instance.",
+  {
+    githubSSHUrl: z
+      .string()
+      .describe("The SSH URL of the github repository to clone"),
+  },
+  installGithub,
+);
+
+/**
+ * Get the security groups for the EC2 instance
+ */
 server.tool(
   "get-security-groups",
   "Get the security groups for the EC2 instance",
