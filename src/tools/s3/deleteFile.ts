@@ -1,18 +1,7 @@
-import { RequestHandlerExtra } from "@modelcontextprotocol/sdk/shared/protocol";
-import {
-  ServerRequest,
-  ServerNotification,
-} from "@modelcontextprotocol/sdk/types";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { S3ClientSingleton } from "../../lib/s3";
 
-type ToolHandler = (
-  args: {
-    bucketName: string;
-    key: string;
-  },
-  extra: RequestHandlerExtra<ServerRequest, ServerNotification>,
-) => Promise<{
+type ToolHandler = (args: { bucketName: string; key: string }) => Promise<{
   content: { type: "text"; text: string }[];
 }>;
 

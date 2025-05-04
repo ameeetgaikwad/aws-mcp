@@ -1,8 +1,3 @@
-import { RequestHandlerExtra } from "@modelcontextprotocol/sdk/shared/protocol";
-import {
-  ServerRequest,
-  ServerNotification,
-} from "@modelcontextprotocol/sdk/types";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { S3ClientSingleton } from "../../lib/s3";
 import * as fs from "fs";
@@ -13,8 +8,7 @@ type ToolHandler = (
     key: string;
     filePath: string;
     contentType?: string;
-  },
-  extra: RequestHandlerExtra<ServerRequest, ServerNotification>,
+  }
 ) => Promise<{
   content: { type: "text"; text: string }[];
 }>;

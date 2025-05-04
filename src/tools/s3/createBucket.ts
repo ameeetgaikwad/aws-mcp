@@ -1,18 +1,10 @@
-import { RequestHandlerExtra } from "@modelcontextprotocol/sdk/shared/protocol";
-import {
-  ServerRequest,
-  ServerNotification,
-} from "@modelcontextprotocol/sdk/types";
 import {
   CreateBucketCommand,
   BucketLocationConstraint,
 } from "@aws-sdk/client-s3";
 import { S3ClientSingleton } from "../../lib/s3";
 
-type ToolHandler = (
-  args: { bucketName: string; region?: string },
-  extra: RequestHandlerExtra<ServerRequest, ServerNotification>,
-) => Promise<{
+type ToolHandler = (args: { bucketName: string; region?: string }) => Promise<{
   content: { type: "text"; text: string }[];
 }>;
 
