@@ -96,7 +96,9 @@ server.tool(
     email: z
       .string()
       .optional()
-      .describe("The email address to use for the github ssh keys."),
+      .describe(
+        "The email address to use for the github ssh keys. Ask the user for the email address.",
+      ),
   },
   setupGithubSSHKeys,
 );
@@ -108,9 +110,7 @@ server.tool(
   "clone-github-repository",
   "Clone a github repository on ec2 instance.",
   {
-    githubSSHUrl: z
-      .string()
-      .describe("The SSH URL of the github repository to clone"),
+    githubUrl: z.string().describe("The URL of the github repository to clone"),
   },
   installGithub,
 );
