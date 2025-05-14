@@ -13,6 +13,13 @@ import { stopEC2Instance } from "./tools/ec2/pauseEc2";
 import { deleteEC2Instance } from "./tools/ec2/deleteEc2";
 import { getKeyPairs } from "./tools/keypairs/getKeyPairs";
 import { createKeyPair } from "./tools/keypairs/createKeyPair";
+import { listS3Buckets } from "./tools/s3/listBuckets";
+import { createS3Bucket } from "./tools/s3/createBucket";
+import { uploadFileToS3 } from "./tools/s3/uploadFile";
+import { downloadFileFromS3 } from "./tools/s3/downloadFile";
+import { deleteFileFromS3 } from "./tools/s3/deleteFile";
+import { deleteS3Bucket } from "./tools/s3/deleteBucket";
+import { listS3Objects } from "./tools/s3/listObjects";
 
 import {
   installNode,
@@ -286,6 +293,85 @@ server.tool(
   async (args: { vpcId: string }, extra) => {
     return getSubnetId(args, extra);
   },
+);
+
+// S3 Tools
+server.tool(
+  "list-s3-buckets",
+  "Lists all S3 buckets in the AWS account.",
+  {},
+  listS3Buckets,
+);
+
+server.tool(
+  "create-s3-bucket",
+  "Creates a new S3 bucket.",
+  {
+    bucketName: z.string().describe("The name of the S3 bucket to create"),
+    region: z
+      .string()
+      .optional()
+      .describe("The AWS region to create the bucket in (optional)"),
+  },
+  createS3Bucket,
+);
+
+server.tool(
+  "delete-s3-bucket",
+  "Deletes an S3 bucket.",
+  {
+    bucketName: z.string().describe("The name of the S3 bucket to delete"),
+  },
+  deleteS3Bucket,
+);
+
+server.tool(
+  "list-s3-objects",
+  "Lists all objects in an S3 bucket.",
+  {
+    bucketName: z.string().describe("The name of the S3 bucket"),
+  },
+  listS3Objects,
+);
+
+server.tool(
+  "upload-file-to-s3",
+  "Uploads a file to an S3 bucket.",
+  {
+    bucketName: z.string().describe("The name of the S3 bucket"),
+    key: z
+      .string()
+      .describe("The key (path) where the file will be stored in S3"),
+    filePath: z.string().describe("The local path of the file to upload"),
+    contentType: z
+      .string()
+      .optional()
+      .describe("The content type of the file (optional)"),
+  },
+  uploadFileToS3,
+);
+
+server.tool(
+  "download-file-from-s3",
+  "Downloads a file from an S3 bucket.",
+  {
+    bucketName: z.string().describe("The name of the S3 bucket"),
+    key: z.string().describe("The key (path) of the file in S3"),
+    filePath: z
+      .string()
+      .describe("The local path where the file will be downloaded"),
+  },
+  downloadFileFromS3,
+);
+
+server.tool(
+  "delete-file-from-s3",
+  "Deletes a file from an S3 bucket.",
+  {
+    bucketName: z.string().describe("The name of the S3 bucket"),
+    key: z.string().describe("The key (path) of the file to delete in S3"),
+  },
+  deleteFileFromS3,
 );
 
 async function main() {
