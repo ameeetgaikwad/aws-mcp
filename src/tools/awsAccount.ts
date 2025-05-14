@@ -9,6 +9,9 @@ export const getAWSCredentials = () => {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     region: process.env.AWS_REGION,
+    publicIp: process.env.PUBLIC_IP,
+    username: process.env.USERNAME,
+    pemFilePath: process.env.PEM_FILE_ABSOLUTE_PATH,
   };
 };
 

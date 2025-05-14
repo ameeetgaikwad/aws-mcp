@@ -4,9 +4,9 @@ export interface EC2UserConfig {
   instanceName: string;
   instanceType: string;
   amiId: string;
-  keyName?: string;
+  keyName: string;
   securityGroupIds?: string[];
-  subnetId?: string;
+  subnetId: string;
   volumeSize?: number;
   volumeType?: string;
   tags?: { [key: string]: string };

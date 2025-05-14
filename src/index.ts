@@ -6,10 +6,13 @@ import { z } from "zod";
 import { createEC2InstanceWithParams } from "./tools/ec2/createEc2Instance";
 import { getSecyrityGroups } from "./tools/securityGroups/getSecrutiyGroups";
 import { createVpc } from "./tools/vpc/createVpc";
+import { getSubnetId } from "./tools/vpc/getSubnetId";
 import { createSecurityGroup } from "./tools/securityGroups/createSecurityGroups";
 import { editSecurityGroup } from "./tools/securityGroups/editSecurityGroups";
 import { stopEC2Instance } from "./tools/ec2/pauseEc2";
 import { deleteEC2Instance } from "./tools/ec2/deleteEc2";
+import { getKeyPairs } from "./tools/keypairs/getKeyPairs";
+import { createKeyPair } from "./tools/keypairs/createKeyPair";
 
 import {
   installNode,
@@ -193,6 +196,28 @@ server.tool(
   listEC2Instances,
 );
 
+/**
+ * Get all key pairs from AWS.
+ */
+server.tool(
+  "get-key-pairs",
+  "Retrieves all EC2 key pairs from AWS. List all the key pairs and ask the user to select one. These key pairs names will be returned to the user.",
+  {},
+  getKeyPairs,
+);
+
+/**
+ * Create a key pair in AWS or get existing ones.
+ */
+server.tool(
+  "create-key-pair",
+  "Creates a new EC2 key pair in AWS. Always ask the user for the name of the keypair to be created. This will generate a private key for access to the EC2 instance. This private key will be returned to the user to store in a .pem file.",
+  {
+    keyName: z.string().describe("Name for the new key pair."),
+  },
+  createKeyPair,
+);
+
 server.tool(
   "create-security-group",
   "Create a security group in AWS",
@@ -246,6 +271,20 @@ server.tool(
   },
   async (args: { cidrBlock: string; name: string }, extra) => {
     return createVpc(args, extra);
+  },
+);
+
+/**
+ * Get subnet ID using VPC ID
+ */
+server.tool(
+  "get-subnet-id",
+  "Retrieves a subnet ID associated with the provided VPC ID",
+  {
+    vpcId: z.string().describe("The VPC ID to find subnet ID for"),
+  },
+  async (args: { vpcId: string }, extra) => {
+    return getSubnetId(args, extra);
   },
 );
 
