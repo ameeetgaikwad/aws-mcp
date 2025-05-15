@@ -43,9 +43,9 @@ export const createKeyPair: ToolHandler = async (args, extra) => {
             text: JSON.stringify(
               {
                 status: "success",
-                message: `Key pair "${keyName}" created successfully. Here is the ssh private key, save it in a .pem file.`,
+                message: `Key pair "${keyName}" created successfully.`,
                 keyName: keyName,
-                keyMaterial: formattedKeyMaterial,
+                privateKey: formattedKeyMaterial,
               },
               null,
               2,

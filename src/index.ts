@@ -6,7 +6,7 @@ import { z } from "zod";
 import { createEC2InstanceWithParams } from "./tools/ec2/createEc2Instance";
 import { getSecyrityGroups } from "./tools/securityGroups/getSecrutiyGroups";
 import { createVpc } from "./tools/vpc/createVpc";
-import { getSubnetId } from "./tools/vpc/getSubnetId";
+import { getSubnetId } from "./tools/subnet/getSubnetId";
 import { createSecurityGroup } from "./tools/securityGroups/createSecurityGroups";
 import { editSecurityGroup } from "./tools/securityGroups/editSecurityGroups";
 import { stopEC2Instance } from "./tools/ec2/pauseEc2";
@@ -139,12 +139,12 @@ server.tool(
  */
 server.tool(
   "create-ec2-instance",
-  "Creates an EC2 instance in AWS.",
+  "Creates an EC2 instance in AWS. This returns the type of instance created like a t2.micro, t2.small, etc. It also returns the AMI ID type used like ubuntu, amazon-linux, etc. Before creating the instance confirm with the user the key pair used and the name of the instance. Mention all the requirements in bullet points.",
   {
     instanceName: z.string().describe("The name of the EC2 instance"),
     region: z.string().describe("AWS region to create the EC2 instance in"),
     instanceType: z.string().describe("The type of EC2 instance to create"),
-    amiId: z.string().describe("The AMI ID to use for the EC2 instance"),
+    amiId: z.string().describe("The AMI ID to use for the EC2 instance. By default it will use the latest Ubuntu 24.04 LTS AMI."),
     keyName: z.string().describe("The key name to use for the EC2 instance"),
     securityGroupIds: z
       .array(z.string())
@@ -218,7 +218,7 @@ server.tool(
  */
 server.tool(
   "create-key-pair",
-  "Creates a new EC2 key pair in AWS. Always ask the user for the name of the keypair to be created. This will generate a private key for access to the EC2 instance. This private key will be returned to the user to store in a .pem file.",
+  "Creates a new EC2 key pair in AWS. Always ask the user for the name of the keypair to be created. This will generate a private key for access to the EC2 instance. This key will be returned to the user",
   {
     keyName: z.string().describe("Name for the new key pair."),
   },
