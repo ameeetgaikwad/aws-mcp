@@ -43,7 +43,7 @@ export const createKeyPair: ToolHandler = async (args, extra) => {
             text: JSON.stringify(
               {
                 status: "success",
-                message: `Key pair "${keyName}" created successfully.`,
+                message: `Key pair "${keyName}" created successfully. Here is the private key, save it in a secure location(in a .pem file ideally).`,
                 keyName: keyName,
                 privateKey: formattedKeyMaterial,
               },
