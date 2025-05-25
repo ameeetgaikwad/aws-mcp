@@ -12,7 +12,21 @@ export const installPm2: ToolHandler = async (args, extra) => {
     const result = await sshService.executeCommands(["npm install -g pm2"]);
 
     if (result.code !== 0) {
-      throw new Error(`pm2 installation failed with exit code ${result.code}`);
+      return {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify(
+              {
+                status: "error",
+                error: `pm2 installation failed with exit code ${result.code}`,
+              },
+              null,
+              2,
+            ),
+          },
+        ],
+      };
     }
 
     // console.log("pm2 successfully installed");
@@ -22,7 +36,19 @@ export const installPm2: ToolHandler = async (args, extra) => {
   } catch (error) {
     logger.error("Failed to install pm2:", error);
     return {
-      content: [{ type: "text", text: "pm2 installation failed " + error }],
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(
+            {
+              status: "error",
+              error: "pm2 installation failed " + error,
+            },
+            null,
+            2,
+          ),
+        },
+      ],
     };
   }
 };

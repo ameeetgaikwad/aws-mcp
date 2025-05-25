@@ -15,9 +15,22 @@ export const installNode: ToolHandler = async (args, extra) => {
     ]);
 
     if (result.code !== 0) {
-      throw new Error(`Node installation failed with exit code ${result.code}`);
+      return {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify(
+              {
+                status: "error",
+                error: `Node installation failed with exit code ${result.code}`,
+              },
+              null,
+              2,
+            ),
+          },
+        ],
+      };
     }
-
     console.log("Node.js successfully installed");
     return {
       content: [{ type: "text", text: "Node.js successfully installed" }],
@@ -25,8 +38,19 @@ export const installNode: ToolHandler = async (args, extra) => {
   } catch (error) {
     console.error("Failed to install Node.js:", error);
     return {
-      content: [{ type: "text", text: "Node.js installation failed" + error }],
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(
+            {
+              status: "error",
+              error: "Node.js installation failed" + error,
+            },
+            null,
+            2,
+          ),
+        },
+      ],
     };
   }
 };
-
