@@ -78,9 +78,9 @@ export const installGithub: InstallGithubToolHandler = async (args, extra) => {
 
     cloneCommand = `git clone ${args.githubUrl}`;
 
-    const execResult = await tryCatch(sshService.executeCommands([
-      `${cloneCommand} && exit`,
-    ]));
+    const execResult = await tryCatch(
+      sshService.executeCommands([`${cloneCommand} && exit`]),
+    );
 
     if (execResult.error) {
       logger.error(`SSH git clone error:`, execResult.error);
@@ -155,9 +155,9 @@ export const installGithub: InstallGithubToolHandler = async (args, extra) => {
       if (isPublic) {
         cloneCommand = `git clone ${args.githubUrl}`;
 
-        const execResult = await tryCatch(sshService.executeCommands([
-          `${cloneCommand} && exit`,
-        ]));
+        const execResult = await tryCatch(
+          sshService.executeCommands([`${cloneCommand} && exit`]),
+        );
 
         if (execResult.error) {
           logger.error(`HTTPS git clone error:`, execResult.error);
@@ -221,9 +221,9 @@ export const installGithub: InstallGithubToolHandler = async (args, extra) => {
 
         cloneCommand = `git clone ${sshUrl} && exit`;
 
-        const execResult = await tryCatch(sshService.executeCommands([
-          `${cloneCommand} && exit`,
-        ]));
+        const execResult = await tryCatch(
+          sshService.executeCommands([`${cloneCommand} && exit`]),
+        );
 
         if (execResult.error) {
           logger.error(`SSH git clone error:`, execResult.error);
@@ -285,7 +285,7 @@ export const installGithub: InstallGithubToolHandler = async (args, extra) => {
         };
       }
     }
-    
+
     // Return error if match is falsy
     return {
       content: [
@@ -294,7 +294,8 @@ export const installGithub: InstallGithubToolHandler = async (args, extra) => {
           text: JSON.stringify(
             {
               status: "error",
-              error: "Could not parse repository information from the provided URL.",
+              error:
+                "Could not parse repository information from the provided URL.",
             },
             null,
             2,
@@ -349,12 +350,14 @@ export const setupGithubSSHKeys: SetupGithubToolHandler = async (
   try {
     const { privateKey, publicKey } = await generateKeyPairAsync();
 
-    const execResult = await tryCatch(sshService.executeCommands([
-      `echo '${privateKey}' | sudo tee ~/.ssh/id_ed25519 > /dev/null`,
-      `chmod 600 ~/.ssh/id_ed25519`,
-      `echo '${publicKey}' | sudo tee ~/.ssh/id_ed25519.pub > /dev/null`,
-      "exit",
-    ]));
+    const execResult = await tryCatch(
+      sshService.executeCommands([
+        `echo '${privateKey}' | sudo tee ~/.ssh/id_ed25519 > /dev/null`,
+        `chmod 600 ~/.ssh/id_ed25519`,
+        `echo '${publicKey}' | sudo tee ~/.ssh/id_ed25519.pub > /dev/null`,
+        "exit",
+      ]),
+    );
 
     if (execResult.error) {
       logger.error(`SSH key setup error:`, execResult.error);
@@ -422,9 +425,3 @@ export const setupGithubSSHKeys: SetupGithubToolHandler = async (
     };
   }
 };
-
-async function main() {
-  await setupGithubSSHKeys({}, undefined);
-}
-
-main();

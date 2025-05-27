@@ -14,7 +14,6 @@ import {
 import { ServerRequest } from "@modelcontextprotocol/sdk/types";
 
 type CreateVpcArgs = {
-  cidrBlock: string; // e.g., "10.0.0.0/16"
   name: string;
 };
 
@@ -38,8 +37,8 @@ export const createVpc: CreateVpcToolHandler = async (args, extra) => {
 
   try {
     // Create VPC
-    const createVpcCommand = new CreateVpcCommand({
-      CidrBlock: args.cidrBlock,
+      const createVpcCommand = new CreateVpcCommand({
+        CidrBlock: "10.0.0.0/16",
       TagSpecifications: [
         {
           ResourceType: "vpc",
@@ -88,7 +87,7 @@ export const createVpc: CreateVpcToolHandler = async (args, extra) => {
     // Create a public subnet
     const createSubnetCommand = new CreateSubnetCommand({
       VpcId: vpcId,
-      CidrBlock: args.cidrBlock.replace("/16", "/24"), // Creates a /24 subnet from the /16 VPC
+      CidrBlock: "10.0.0.0/24", // Creates a /24 subnet from the /16 VPC
       TagSpecifications: [
         {
           ResourceType: "subnet",
@@ -107,7 +106,7 @@ export const createVpc: CreateVpcToolHandler = async (args, extra) => {
                 - VPC ID: ${vpcId}
                 - Internet Gateway ID: ${igwId}
                 - Subnet ID: ${subnetId}
-                - CIDR Block: ${args.cidrBlock}`,
+                - CIDR Block: 10.0.0.0/24`,
         },
       ],
     };
