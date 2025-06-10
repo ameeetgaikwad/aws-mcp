@@ -76,7 +76,7 @@ export const installGithub: InstallGithubToolHandler = async (args, extra) => {
       }
     }
 
-    cloneCommand = `git clone ${args.githubUrl}`;
+    cloneCommand = `GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone ${args.githubUrl}`;
 
     const execResult = await tryCatch(
       sshService.executeCommands([`${cloneCommand} && exit`]),
